@@ -16,7 +16,7 @@ export const store = createStore({
     },
     SET_CHART_ACTION_MESSAGE(state, linkIndexAction){
       state.linkIndexAction = linkIndexAction
-      state.sendMessageAction = true
+      state.sendMessageAction = !state.sendMessageAction
     }
   },
   getters:{

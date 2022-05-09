@@ -48,17 +48,16 @@ class ChartGraphData:
                 link['source']=send_data.from_id
                 link['target']=send_data.to_id               
                 newLinks = False
-                self.link_update_id = send_data.from_id
+                self.link_update_id = send_data.from_id + send_data.to_id 
             if not_changed:
                 newLinks = False
-                self.link_update_id = send_data.from_id
             index+=1
         if newLinks:
             self.links.append({
                 'source': send_data.from_id,
                 'target': send_data.to_id
             })
-            self.link_update_id = send_data.from_id
+            self.link_update_id = send_data.from_id + send_data.to_id 
 
     def delete_node(self,client_id: str):
         

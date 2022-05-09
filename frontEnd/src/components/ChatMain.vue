@@ -133,7 +133,8 @@ export default {
         if (data.type_action === 'chart_send_message'){
           _this.SET_NODES_TO_STATE(data.nodes)
           _this.SET_LINKS_TO_STATE(data.links)
-          _this.SET_CHART_ACTION_MESSAGE(data.link_update_id)      
+          _this.SET_CHART_ACTION_MESSAGE(data.link_update_id)    
+       
         }
 
         if (data.type_action === 'chart_add_node'){

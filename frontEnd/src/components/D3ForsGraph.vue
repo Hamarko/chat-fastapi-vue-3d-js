@@ -1,21 +1,25 @@
 <template>
   
-  <div id="containerGraph" class="chart-container">
+  <div  class="chart-container">
     <svg xmlns="http://www.w3.org/2000/svg" 
+         id="containerGraph"
          :width="width"
          :height="height"
          @mousemove="drag($event)"
          @mouseup="drop()"
          v-if="bounds.minX">
-      <defs>       
-          <marker id="m-end" markerWidth="10" markerHeight="10" refX="15" refY="0" 
-                  orient="auto" 
-                  markerUnits="strokeWidth" 
-                  viewBox="0 -5 10 10" >
-            <path d="M0,-5L10,0L0,5"></path>
-          </marker>        
+
+      <defs> 
+          <transition-group tag="g" name="marker">    
+            <D3MarkerArrow v-for="link in graph.links"
+                    :key="link.source.index"
+                    :id="`Activet${link.source.id}${link.target.id}`"
+                    class="activet"
+                  />
+          </transition-group>
+                
       </defs>
-      <transition-group tag="g" name="line">
+      <transition-group tag="g" name="line"> 
         <line v-for="link in graph.links"
               :x1="coords[link.source.index].x"
               :y1="coords[link.source.index].y"
@@ -23,11 +27,12 @@
               :y2="coords[link.target.index].y"
               stroke="black" stroke-width="2"
               :key="link.source.index"
-              marker-end="url(#m-end)"
-              :id="link.source.id"
-              class="activet"
+              :marker-end="`url(#Activet${link.source.id}${link.target.id}`"
+              :id="`Activet${link.source.id}${link.target.id}`" 
+              class="activet"         
               />
       </transition-group>
+     
       <transition-group tag="g" name="circle">
         <circle v-for="(node, i) in graph.nodes"
                 class="bounce-enter-active"
@@ -52,11 +57,14 @@
 <script>
 import * as d3 from "d3"
 import {mapGetters} from 'vuex'
-
+import D3MarkerArrow from './D3MarkerArrow'
 
 
 export default {
   name: 'D3ForsGraph',
+  components: {
+    D3MarkerArrow
+  },
   data(){
     return {     
       width: 500,
@@ -102,14 +110,24 @@ export default {
         return {x, y}
       })
     }
-  },
-  created(){
-    this.startSimulation(this.graph)
-    
   },  
+  mounted(){
+    this.startSimulation(this.graph)
+  },
   watch: {
     graph(newGraph){
       this.startSimulation(newGraph)
+    },
+    sendMessageAction(){
+      const line = d3.selectAll(`#Activet${this.linkIndexAction}`)
+      line.transition()
+        .duration(2000)
+        .attr("stroke", "#6610f2")
+        .attr("fill", "#6610f2")
+        .transition()
+        .duration(200)
+        .attr("fill", "black")
+        .attr("stroke", "black")     
     }
 
   },
@@ -137,7 +155,7 @@ export default {
        .force('charge', d3.forceManyBody().strength(d => -10))
        .force('link', d3.forceLink(newGraph.links).id(d => d.id))
        .force('x', d3.forceX())
-       .force('y', d3.forceY())      
+       .force('y', d3.forceY())        
     }    
   }
 }
@@ -152,12 +170,9 @@ text {
 .bounce-enter-active {
   animation: bounce-in 1s;
 }
-.bounce-leave-active {
-  animation: bounce-in 1s reverse;
-}
 .activet{
   animation-name: example;
-  animation-duration: 2s;
+  animation-duration: 2s;  
 }
 @keyframes bounce-in {
   0% {
@@ -172,8 +187,16 @@ text {
   
 }
 @keyframes example {
-  from {stroke: black;}
-  to {stroke: green;}  
+  from {
+    stroke: black;
+    fill: black;  
+  }
+  to {
+    stroke: #6610f2;
+    fill: #6610f2;
+  }  
+  
+
 }
 
 </style>
