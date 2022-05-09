@@ -15,7 +15,7 @@
             <path d="M0,-5L10,0L0,5"></path>
           </marker>        
       </defs>
-      <transition-group tag="g" name="line" mode="out-in">
+      <transition-group tag="g" name="line">
         <line v-for="link in graph.links"
               :x1="coords[link.source.index].x"
               :y1="coords[link.source.index].y"
@@ -25,7 +25,7 @@
               :key="link.source.index"
               marker-end="url(#m-end)"
               :id="link.source.id"
-              :class="$+link.source.id"
+              class="activet"
               />
       </transition-group>
       <transition-group tag="g" name="circle">
