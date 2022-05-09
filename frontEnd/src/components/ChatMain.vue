@@ -74,7 +74,7 @@ export default {
     ...mapMutations(["SET_NODES_TO_STATE", "SET_LINKS_TO_STATE", "SET_CHART_ACTION_MESSAGE"]),
   
     sendMessage(){
-      console.log(this.form_message)
+     
       const message_data = {
         message: this.form_message,
         to_user_id: this.to_user_id

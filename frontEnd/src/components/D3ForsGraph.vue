@@ -25,7 +25,7 @@
               :key="link.source.index"
               marker-end="url(#m-end)"
               :id="link.source.id"
-              class="activet"
+              :class="$+link.source.id"
               />
       </transition-group>
       <transition-group tag="g" name="circle">
@@ -52,7 +52,7 @@
 <script>
 import * as d3 from "d3"
 import {mapGetters} from 'vuex'
-//import Vue from "vue";
+
 
 
 export default {
@@ -108,9 +108,7 @@ export default {
     
   },  
   watch: {
-    graph(newGraph, oldGraph){
-      console.log(oldGraph)
-      console.log(newGraph)
+    graph(newGraph){
       this.startSimulation(newGraph)
     }
 
@@ -159,7 +157,7 @@ text {
 }
 .activet{
   animation-name: example;
-  animation-duration: 4s;
+  animation-duration: 2s;
 }
 @keyframes bounce-in {
   0% {
