@@ -19,13 +19,16 @@
       <h2>Your ID: {{user_id}}</h2>
       <h2>Select user</h2>
     </div>
-    <div class="chat-right-dashboard">
+    <div class="chat-right-dashboard" v-if="users.length!==0">      
       <ChatUserButton 
         v-for="user in users" 
         :key="user.id" 
         :user="user"
         v-on:seleckUser="seleckUser"
-      />
+      />    
+    </div>
+    <div class="chat-right-dashboard" v-else>
+      <h2>There are no users here</h2>
     </div>
   </div>
 </template>
@@ -165,10 +168,12 @@ export default {
   width: 70%;
   align-items: center;
   padding: 3rem;
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.1);
 }
 .chat-right-dashboard{
   flex-direction: row;
   width: 30%;
+  box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.1);
 }
 .chat-button {  
   width: 100%;
