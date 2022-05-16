@@ -5,7 +5,7 @@
       <h2>Your ID: {{user_id}}</h2>
       <h2>Chat with user ID: {{to_user_id}}</h2>
       <div class="chat-input">
-        <input v-model="form_message" placeholder="enter message" >
+        <input v-model="message" placeholder="enter message" >
       </div>
       <div class="chat-button plus" v-on:click="sendMessage">Send</div>
       <div v-for="message in contentFilter" :key="message.user_id">
@@ -53,15 +53,7 @@ export default {
       to_user_id:''
     }
   },
-  computed: {
-    form_message:{
-      get(){
-        return this.message
-      },
-      set(newValue){
-        this.message = newValue
-      }
-    },
+  computed: {    
     contentFilter(){
       return this.content.filter((item) => {              
           const check_to = item.to_id === this.to_user_id
@@ -79,7 +71,7 @@ export default {
     sendMessage(){
      
       const message_data = {
-        message: this.form_message,
+        message: this.message,
         to_user_id: this.to_user_id
       }
       this.connection.send(JSON.stringify({message_data}))

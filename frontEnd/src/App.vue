@@ -35,6 +35,7 @@ export default {
   display: flex;
   margin-left: 2rem;
   margin-right: 2rem;
+  min-height: 90vh;
 }
 .chart-container{
   margin: 2rem;
